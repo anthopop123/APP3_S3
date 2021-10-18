@@ -1,7 +1,9 @@
 package ServerSide;
-
+import java.io.File;
 public class applicationClient {
     void terminalRead(){
+
+        File fichierAEnvoyer;
 
     }
 
