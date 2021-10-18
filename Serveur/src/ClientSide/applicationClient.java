@@ -1,4 +1,4 @@
-package ServerSide;
+package ClientSide;
 
 public class applicationClient {
     void terminalRead(){

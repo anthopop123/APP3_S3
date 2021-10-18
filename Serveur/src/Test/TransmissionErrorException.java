@@ -1,4 +1,7 @@
 package Test;
 
-public class TransmissionErrorException {
+public class TransmissionErrorException extends Exception{
+    public TransmissionErrorException(String message){
+        super("TransmissionErrorException: " + message);
+    }
 }
