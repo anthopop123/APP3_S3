@@ -29,6 +29,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import ClientSide.observerThread;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -36,24 +38,25 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
+
 /**
  * public class QuoteClient
  */
 public class QuoteClient {
     public static void main(String[] args) throws IOException {
+        Thread terminalThread = new observerThread();
+        terminalThread.start();
+
+
 
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
             return;
         }
 
-
-
-
         // get a datagram socket
         DatagramSocket socket = new DatagramSocket();
-
-
 
         // send request
         byte[] buf = new byte[256];
@@ -68,12 +71,5 @@ public class QuoteClient {
         System.out.println("Quote of the Moment: " + received);
 
         socket.close();
-    }
-    public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            System.out.println("La session c'est terminee avec succes");
-            System.exit(0);
-        }
     }
 }
