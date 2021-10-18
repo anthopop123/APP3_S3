@@ -1,16 +1,23 @@
 package ServerSide;
-/*
+
+
+
+import Test.Packet;
+
+
 public class transportClient {
     void createPacket() {
 
     }
+
     void sendPacket(){
 
     }
-    byte[] creerTrameHeader(String [] args) {
+
+    Packet[] creerTrameHeader(String [] args) {
 
     }
     void ordonnerPacket() {
 
     }
-}*/
+}
