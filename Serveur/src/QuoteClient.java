@@ -68,7 +68,7 @@ public class QuoteClient {
         transportClient transportLayer = new transportClient();
         linkClient datalink =new linkClient();
         Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(terminalThread.getName2()),terminalThread.getAdr2(),layer.getFilename());
-        datalink.CRC(transmission);
+        datalink.CRC(transmission,args[0]);
 
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
