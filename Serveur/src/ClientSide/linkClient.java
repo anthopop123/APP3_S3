@@ -1,5 +1,5 @@
 package ClientSide;
-
+/*
 public class linkClient {
     void init(String nom, String ip){
 
@@ -18,3 +18,4 @@ public class linkClient {
 
     }
 }
+*/

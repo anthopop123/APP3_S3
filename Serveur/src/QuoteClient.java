@@ -34,20 +34,22 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import ServerSide.observerThread;
-import java.io.*;
-import java.net.*;
 
 
 /**
  * public class QuoteClient
+ * La class QuoteClient doit indiquer les directives à l'utilisateur
+ * La class QuoteClient doit demarrer le tread qui observe le terminal.
+ * La class QuoteClient simule la couche physique en creant un socket de Barkely
+ *
  */
 public class QuoteClient {
     public static void main(String[] args) throws IOException {
+        System.out.println("To transfert file press 9,  To stop the application press 8");
         Thread terminalThread = new observerThread();
         terminalThread.start();
-
-
+        String testName = ((observerThread) terminalThread).getName2();       // O.o
+        String testAdr = ((observerThread) terminalThread).getAdr2();
 
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");

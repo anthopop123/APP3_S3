@@ -1,6 +1,6 @@
 package ServerSide;
 
-
+/*
 public class transportServer {
     DatagramPacket readReceipt(){
 
@@ -9,4 +9,4 @@ public class transportServer {
 
     }
 
-}
+}*/

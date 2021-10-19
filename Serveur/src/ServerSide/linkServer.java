@@ -1,5 +1,5 @@
 package ServerSide;
-
+/*
 
 public class linkServer {
     boolean verify(byte[] args){
@@ -14,4 +14,4 @@ public class linkServer {
 
     }
 
-}
+}*/
