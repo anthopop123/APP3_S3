@@ -1,4 +1,4 @@
-/*
+
 import ServerSide.linkServer;
 import ServerSide.transportServer;
 import Test.TransmissionErrorException;
@@ -25,4 +25,3 @@ public class main {
         }
     }
 }
-*/

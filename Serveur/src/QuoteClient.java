@@ -97,7 +97,7 @@ public class QuoteClient {
         byte[] message;
         applicationClient appLayer= new applicationClient();
         transportClient transportLayer = new transportClient();
-        Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(nameOfTheFile),ipAddress,applayer.getFilename());
+        Packet[] transmission = transportLayer.creerTrame(appLayer.creationMessage(nameOfTheFile),ipAddress,appLayer.getFilename());
         linkClient datalink =new linkClient();
         datalink.CRC(transmission,args[0]);
 
