@@ -71,26 +71,19 @@ public class linkServer {
         socket.receive(packet);
         entree = new byte[packet.getLength()];
         System.arraycopy(buf, 0,entree,0,entree.length);
-
-        System.out.println(new String(entree, StandardCharsets.UTF_8));
         int portClient = packet.getPort();
         InetAddress addressClient = packet.getAddress();
-        //crcClient = entree[0];
-        //System.arraycopy(entree, 1,entree,0,entree.length-1);
+        crcClient = entree[0];
+        System.arraycopy(entree, 1,entree,0,entree.length-1);
         long crcResult= verify(entree);
         socket.close();
-        /*if(crcResult != crcClient){
+        if(crcResult != crcClient){
             createLog("Recu avec erreur de crc! :P");
         }
         else{
             transportServer ts = new transportServer(portServeur,portClient,addressClient);
             ts.readReceipt(entree);
-        }*/
-        transportServer ts = new transportServer(portServeur,portClient,addressClient);
-        ts.readReceipt(entree);
-
-
-
+        }
     }
 
     /**
@@ -102,13 +95,11 @@ public class linkServer {
         FileHandler fh;
 
         try {
-
             fh = new FileHandler("C:\\Users\\antho\\AppData\\Local\\GitHubDesktop\\app-2.8.0\\APP3_S3\\Serveur\\liasonDeDonnes.log");
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
             logger.info(message);
-
         } catch (SecurityException | IOException e) {
             e.printStackTrace();
         }
