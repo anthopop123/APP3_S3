@@ -23,8 +23,9 @@ public class applicationServer {
             e.printStackTrace();
         }
     }
-    public void appReceive(byte[] sortie){
+    public void appReceive(byte[] sortie,String filename){
         System.out.println(new String(sortie, StandardCharsets.UTF_8));
-        write(sortie,"test.txt");
+        System.out.println("--------------------------------------------------------");
+        write(sortie,filename);
     }
 }
