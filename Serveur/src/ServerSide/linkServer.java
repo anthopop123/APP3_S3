@@ -28,12 +28,12 @@ public class linkServer {
 
     }
 
-    File createStat(){
-    long crcClient;
-    int portServeur = 6969;
-    DatagramSocket socket;
-    byte[] entree = new byte[256];
-    byte[] fin = new byte[256];
+    File createStat() {
+        long crcClient;
+        int portServeur = 6969;
+        DatagramSocket socket;
+        byte[] entree = new byte[256];
+        byte[] fin = new byte[256];
 
     /**
      *Createur de la classe linkServeur avec parametre

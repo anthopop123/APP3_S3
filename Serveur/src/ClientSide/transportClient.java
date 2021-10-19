@@ -3,21 +3,12 @@ package ClientSide;
 
 
 import Test.Packet;
+import Test.packetFactory;
 
 
 public class transportClient {
-    void createPacket() {
-
-    }
-
-    void sendPacket(){
-
-    }
-
-    public Packet[] creerTrame() {
-        return i_transmission;
-    }
-    void ordonnerPacket() {
-
+    public Packet[] creerTrame(byte[] i_message,String i_ip,String filename) {
+        packetFactory factory = new packetFactory();
+        return factory.createPacketList(i_message,i_ip,filename);
     }
 }

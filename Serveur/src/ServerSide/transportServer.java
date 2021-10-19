@@ -92,7 +92,6 @@ public class transportServer {
         byte[] buf;
         DatagramPacket packet;
 
-
         if (isReceipt) {
             linkServer.createLog("Paquet recu !!! :)");
             String header = "Success lors de la reception du paquet no " + erreur + "! :)";
@@ -114,8 +113,6 @@ public class transportServer {
 
         System.arraycopy(entree, 0, sortie, 0, entree.length);
         app.appReceive(sortie);
-
-
     }
 }
 

@@ -44,7 +44,6 @@ public class observerThread extends Thread{
                 System.out.println("Destination address :" +ipAddress);
                 setName2(nameOfTheFile);
                 setAdr2(ipAddress);
-
             }
             if(inputCmd == 8) {
                 System.exit(0);

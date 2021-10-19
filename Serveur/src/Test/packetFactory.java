@@ -2,13 +2,13 @@ package Test;
 
 public class packetFactory {
 
-    Packet[] createPacketList(byte [] i_fichierComplet,String i_ip){
+    public Packet[] createPacketList(byte [] i_fichierComplet,String i_ip,String filename){
         int totalPacket=i_fichierComplet.length/200;
         if(i_fichierComplet.length % 200 != 0){
             totalPacket++;
         }
         Packet[] transmission = new Packet [totalPacket];
-        transmission[0]=new Packet(i_ip,0,totalPacket);
+        transmission[0]=new Packet(filename.getBytes(),i_ip,0,totalPacket);
         int packetnumber=1;
         int totalArrayPosition=0;
         byte[] buffer = new byte[200];
