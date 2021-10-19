@@ -18,19 +18,28 @@ import java.util.zip.Checksum;
  */
 public class linkServer {
     long crcClient;
-    int portServeur;
+    int portServeur = 6969;
     DatagramSocket socket;
     byte[] entree = new byte[256];
     byte[] fin = new byte[256];
 
     /**
-     *Createur de la classe linkServeur
+     *Createur de la classe linkServeur avec parametre
      * @param port int pour initilise le port du socket serveur
      * @throws IOException quand le socket n'est pas libre
      */
     public linkServer(int port) throws IOException {
         socket = new DatagramSocket(port);
         portServeur = port;
+    }
+
+    /**
+     * Createur de la classe linkServeur sans parametre
+     * @throws IOException quand le socket n'est pas libre
+     */
+    public linkServer() throws IOException {
+        socket = new DatagramSocket(portServeur);
+
     }
 
     /**
@@ -49,7 +58,7 @@ public class linkServer {
 
     /**
      * Fonction receptrice du packet qui analyse le header retire le crc et lance le transportServer et update le Log en cas de probleme
-     * @throws IOException Si j'ai une erreur dans les packets qui ne peux pas se generer
+     * @throws IOException Si j'ai une erreur dans les packets qui ne peux pas se generer.
      * @throws TransmissionErrorException throw si j'ai 3 fichier perdu dans le transportServer lors de la verification d'arriver des paquet.
      */
     public void receiveSocket() throws IOException, TransmissionErrorException {
@@ -62,19 +71,29 @@ public class linkServer {
         System.out.println(new String(entree, StandardCharsets.UTF_8));
         int portClient = packet.getPort();
         InetAddress addressClient = packet.getAddress();
-        crcClient = entree[0];
-        System.arraycopy(entree, 1,entree,0,entree.length-1);
+        //crcClient = entree[0];
+        //System.arraycopy(entree, 1,entree,0,entree.length-1);
         long crcResult= verify(entree);
-        if(crcResult != crcClient){
-            createStat("Recu avec erreur de crc! :P");
-        }
         socket.close();
+        /*if(crcResult != crcClient){
+            createLog("Recu avec erreur de crc! :P");
+        }
+        else{
+            transportServer ts = new transportServer(portServeur,portClient,addressClient);
+            ts.readReceipt(entree);
+        }*/
         transportServer ts = new transportServer(portServeur,portClient,addressClient);
         ts.readReceipt(entree);
 
+
+
     }
 
-    public static void createStat(String message){
+    /**
+     * Fonction de creation du log et l'ajouts de logs à l'interieur de celui ci
+     * @param message le message string a mettre dans le log.
+     */
+    public static void createLog(String message){
         Logger logger = Logger.getLogger("liasonDeDonnes");
         FileHandler fh;
 

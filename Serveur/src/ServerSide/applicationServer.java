@@ -2,22 +2,29 @@ package ServerSide;
 
 import Test.TransmissionErrorException;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class applicationServer {
-
-    byte[] buf = new byte[1024];
-    BufferedReader in = null;
-
-
-    void listeners(){
-
+    public void write(byte[] info, String filename) {
+        String infoFile = null;
+        File fichier;
+        FileWriter transcript;
+        try {
+            fichier = new File(filename);
+            transcript = new FileWriter(filename);
+            infoFile = new String(info, StandardCharsets.UTF_8);
+            if (fichier.createNewFile()) {
+                System.out.println("Creation d''un nouveau fichier du nom de " + fichier.getName());
+            }
+            transcript.write(infoFile);
+            transcript.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
-    File write(byte[] args, String filename) throws FileNotFoundException {
-        return null;
+    public void appReceive(byte[] sortie){
+        System.out.println(new String(sortie, StandardCharsets.UTF_8));
+        write(sortie,"test.txt");
     }
 }

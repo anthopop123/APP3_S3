@@ -56,8 +56,11 @@ public class QuoteClient {
         buf = new byte[256];
         packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
-        // display response
-        String received = new String(packet.getData(), 0, packet.getLength());
+        byte[] sortie = new byte[packet.getLength()-4];
+        System.arraycopy(buf, 0,sortie,0,sortie.length);
+
+        System.out.println(new String(sortie, StandardCharsets.UTF_8));
+        String received = new String(sortie, 0, sortie.length);
         System.out.println("reussi voici le message de retour : " + received);
 
         socket.close();
