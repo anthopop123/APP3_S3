@@ -19,21 +19,11 @@ import java.util.zip.Checksum;
  * Represente la couche de liaison de donnée du serveur permettant l'analyse des informations et la generation du log.
  */
 public class linkServer {
-
-    boolean verify(byte[] args){
-
-    }
-
-    DatagramPacket receiveSocket(byte[] args){
-
-    }
-
-    File createStat() {
-        long crcClient;
-        int portServeur = 6969;
-        DatagramSocket socket;
-        byte[] entree = new byte[256];
-        byte[] fin = new byte[256];
+    int portServeur = 6969;
+    long crcClient;
+    DatagramSocket socket;
+    byte[] entree = new byte[256];
+    byte[] fin = new byte[256];
 
     /**
      *Createur de la classe linkServeur avec parametre
@@ -45,7 +35,14 @@ public class linkServer {
         portServeur = port;
     }
 
+    /**
+     * Createur de la classe linkServeur sans parametre
+     * @throws IOException quand le socket n'est pas libre
+     */
+    public linkServer() throws IOException {
+        socket = new DatagramSocket(portServeur);
 
+    }
     /**
      * Permet de lancer un crc selon un array de byte
      * @param bytes array de byte a traité avec le crc
@@ -71,19 +68,25 @@ public class linkServer {
         socket.receive(packet);
         entree = new byte[packet.getLength()];
         System.arraycopy(buf, 0,entree,0,entree.length);
+        byte[] crcB = new byte[8];
+        System.arraycopy(entree, 0,crcB,0,8);
         int portClient = packet.getPort();
         InetAddress addressClient = packet.getAddress();
-        crcClient = entree[0];
-        System.arraycopy(entree, 1,entree,0,entree.length-1);
+        String crcS = new String(crcB,StandardCharsets.UTF_8);
+        System.out.println(crcS);
+        crcClient = Long.parseLong(crcS);
+        System.arraycopy(entree, 7,entree,0,entree.length-8);
         long crcResult= verify(entree);
         socket.close();
+        transportServer ts = new transportServer(portServeur,portClient,addressClient);
         if(crcResult != crcClient){
             createLog("Recu avec erreur de crc! :P");
+            ts.readReceipt(entree,true);
         }
         else{
-            transportServer ts = new transportServer(portServeur,portClient,addressClient);
-            ts.readReceipt(entree);
+            ts.readReceipt(entree,false);
         }
+
     }
 
     /**

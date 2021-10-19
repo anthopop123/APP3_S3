@@ -40,8 +40,8 @@ public class observerThread extends Thread{
                 nameOfTheFile= sc.nextLine();
                 System.out.print("Enter the IP address of the destination :  ");
                 String ipAddress= sc.nextLine();
-                System.out.println("File to be transferred :" +nameOfTheFile);
-                System.out.println("Destination address :" +ipAddress);
+                System.out.println("File to be transferred :" + nameOfTheFile);
+                System.out.println("Destination address :" + ipAddress);
                 setName2(nameOfTheFile);
                 setAdr2(ipAddress);
             }

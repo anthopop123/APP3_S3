@@ -50,10 +50,6 @@ public class transportServer {
         noAddresse = address;
 
     }
-    DatagramPacket sendReceipt(){
-
-
-    }
 
 
     /**
@@ -88,17 +84,17 @@ public class transportServer {
      * @throws TransmissionErrorException S'il y a une perte de 3 paquets
      */
 
-    public void readReceipt(byte[] packet) throws TransmissionErrorException {
+    public void readReceipt(byte[] packet,boolean crc) throws TransmissionErrorException {
         int[] listPosition = new int[131072];
         byte[] pos = new byte[5];
-        System.arraycopy(packet, 3, pos, 0, 2);
+        System.arraycopy(packet, 15, pos, 0, 2);
         position = pos[1];
         position |= pos[0] << 8;
 
         listPosition[position] = 1;
 
         for (int i = 0; i < listPosition.length; i++) {
-            if (listPosition[i] == 1 && listPosition[i + 1] == 0 && listPosition[i + 2] == 1) {
+            if (listPosition[i] == 1 && listPosition[i + 1] == 0 && listPosition[i + 2] == 1 || crc) {
                 baseball++;
                 erreur = i + 1;
                 try {
@@ -156,8 +152,8 @@ public class transportServer {
         byte[] sortie = new byte[entree.length];
         if(position == 0){
             byte[] filenameArray = new byte[5];
-            System.arraycopy(entree, 0, filenameArray, 0, 2);
-            System.arraycopy(entree, 5, sortie, 0, 2);
+            System.arraycopy(entree, 19, filenameArray, 0, entree.length-20);
+            System.arraycopy(entree, 17, sortie, 0, 2);
             fileCompletSize = sortie[1];
             fileCompletSize |= sortie[0] << 8;
             fileComplet = new byte[fileCompletSize*200];
@@ -166,12 +162,12 @@ public class transportServer {
             //System.out.println(endVal);
         }
         else if(position == fileCompletSize-1){
-            System.arraycopy(entree, 7, sortie, 0, entree.length-7);
-            System.arraycopy(sortie, 0, fileComplet, 0, sortie.length);
+            System.arraycopy(entree, 19, sortie, 0, entree.length-20);
+            System.arraycopy(sortie, 0, fileComplet, position*200, sortie.length);
             app.appReceive(fileComplet, filename);
         }
         else{
-            System.arraycopy(entree, 7, sortie, 0, entree.length-7);
+            System.arraycopy(entree, 19, sortie, 0, entree.length-20);
             System.arraycopy(sortie, 0, fileComplet, position*200, entree.length);
         }
 

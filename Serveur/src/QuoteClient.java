@@ -64,40 +64,16 @@ public class QuoteClient {
         terminalThread.start();
 
         byte[] message;
-        applicationClient applayer= new applicationClient();
+        applicationClient appLayer= new applicationClient();
         transportClient transportLayer = new transportClient();
-        linkClient datalink =new linkClient();
-        Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(terminalThread.getName2()),terminalThread.getAdr2(),layer.getFilename());
+        linkClient datalink = new linkClient();
+        Packet[] transmission = transportLayer.creerTrame(appLayer.creationMessage(terminalThread.getName2()),terminalThread.getAdr2(),appLayer.getFilename());
         datalink.CRC(transmission,args[0]);
 
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
             return;
         }
-        byte[] buf = new byte[256];
-        // get a datagram socket
-        DatagramSocket socket = new DatagramSocket(25501);
-        String header = "ceci est un test denvoie";
-        Charset charset = StandardCharsets.US_ASCII;
-        buf = charset.encode(header).array();
 
-
-        // send request
-        InetAddress address = InetAddress.getByName(args[0]);
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 25500);
-        socket.send(packet);
-        // get response
-        buf = new byte[256];
-        packet = new DatagramPacket(buf, buf.length);
-        socket.receive(packet);
-        byte[] sortie = new byte[packet.getLength()-4];
-        System.arraycopy(buf, 0,sortie,0,sortie.length);
-
-        String received = new String(sortie, 0, sortie.length);
-        System.out.println("reussi voici le message de retour : " + received);
-
-        socket.close();
-        
     }
-    void converyer()
 }
