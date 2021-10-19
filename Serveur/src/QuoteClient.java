@@ -29,11 +29,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 import ClientSide.observerThread;
+import ServerSide.linkServer;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -45,6 +50,7 @@ import java.net.InetAddress;
  */
 public class QuoteClient {
     public static void main(String[] args) throws IOException {
+
         System.out.println("To transfert file press 9,  To stop the application press 8");
         Thread terminalThread = new observerThread();
         terminalThread.start();
@@ -55,21 +61,28 @@ public class QuoteClient {
             System.out.println("Usage: java QuoteClient <hostname>");
             return;
         }
-
+        byte[] buf = new byte[256];
         // get a datagram socket
-        DatagramSocket socket = new DatagramSocket();
+        DatagramSocket socket = new DatagramSocket(25501);
+        String header = "ceci est un test denvoie";
+        Charset charset = StandardCharsets.US_ASCII;
+        buf = charset.encode(header).array();
+
 
         // send request
-        byte[] buf = new byte[256];
         InetAddress address = InetAddress.getByName(args[0]);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 25500);
         socket.send(packet);
         // get response
+        buf = new byte[256];
         packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
-        // display response
-        String received = new String(packet.getData(), 0, packet.getLength());
-        System.out.println("Quote of the Moment: " + received);
+        byte[] sortie = new byte[packet.getLength()-4];
+        System.arraycopy(buf, 0,sortie,0,sortie.length);
+
+        System.out.println(new String(sortie, StandardCharsets.UTF_8));
+        String received = new String(sortie, 0, sortie.length);
+        System.out.println("reussi voici le message de retour : " + received);
 
         socket.close();
     }
