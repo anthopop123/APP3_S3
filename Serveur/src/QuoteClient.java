@@ -31,8 +31,7 @@
 
 import ClientSide.applicationClient;
 import ClientSide.observerThread;
-import ServerSide.linkServer;
-import java.awt.event.KeyEvent;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -40,10 +39,6 @@ import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import ServerSide.transportServer;
-
-import java.io.*;
-import java.net.*;
-
 
 
 /**
