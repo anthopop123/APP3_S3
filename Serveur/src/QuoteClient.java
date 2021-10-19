@@ -66,7 +66,7 @@ public class QuoteClient {
         String ipAddress="";
         String nameOfTheFile = "default";
         Scanner sc= new Scanner(System.in);
-        boolean fin = true;
+        boolean fin = false;
         while(fin){
             int inputCmd = sc.nextInt();
             if(inputCmd == 9){
@@ -79,25 +79,22 @@ public class QuoteClient {
                     File tempFile = new File(nameOfTheFile);
                     isExisting = tempFile.exists();
                     if(isExisting){
-                        zeFlag = Boolean.TRUE;
+                        zeFlag = true;
                     }
                 }
-                System.out.print("Enter the path of the file you would like to transfer :  ");
-                nameOfTheFile= sc.nextLine();
                 System.out.print("Enter the IP address of the destination :  ");
                 ipAddress= sc.nextLine();
                 System.out.println("File to be transferred :" +nameOfTheFile);
                 System.out.println("Destination address :" +ipAddress);
-                fin = false;
+                fin = true;
             }
             if(inputCmd == 8) {
                 System.exit(0);
             }
         }
-        byte[] message;
         applicationClient appLayer= new applicationClient();
         transportClient transportLayer = new transportClient();
-        Packet[] transmission = transportLayer.creerTrame(appLayer.creationMessage(nameOfTheFile),ipAddress,appLayer.getFilename());
+        Packet[] transmission = transportLayer.creerTrame(appLayer.creationMessage(nameOfTheFile),args[0],appLayer.getFilename());
         linkClient datalink =new linkClient();
         datalink.CRC(transmission,args[0]);
 

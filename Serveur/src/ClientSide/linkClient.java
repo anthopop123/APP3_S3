@@ -9,6 +9,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Integer.parseInt;
 
@@ -35,11 +36,12 @@ public class linkClient {
         packet = new DatagramPacket(transmission[actuelPos].tobyte(), transmission[actuelPos].tobyte().length, addressClient, 25500);
 
         socket.send(packet);
-        while(actuelPos != transmission.length){
+        //while(actuelPos != transmission.length){
             verifySend();
+            System.out.println(actuelPos);
             packet = new DatagramPacket(transmission[actuelPos].tobyte(), transmission[actuelPos].tobyte().length, addressClient, 25500);
             socket.send(packet);
-        }
+        //}
 
         socket.close();
     }

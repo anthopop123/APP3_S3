@@ -168,7 +168,7 @@ public class transportServer {
         }
         else{
             System.arraycopy(entree, 19, sortie, 0, entree.length-20);
-            System.arraycopy(sortie, 0, fileComplet, position*200, entree.length);
+            System.arraycopy(sortie, 0, fileComplet, position*200, entree.length-1);
         }
 
     }

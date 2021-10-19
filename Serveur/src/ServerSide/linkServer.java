@@ -67,6 +67,7 @@ public class linkServer {
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
         entree = new byte[packet.getLength()];
+        System.out.println(entree);
         System.arraycopy(buf, 0,entree,0,entree.length);
         byte[] crcB = new byte[8];
         System.arraycopy(entree, 0,crcB,0,8);
@@ -74,18 +75,19 @@ public class linkServer {
         InetAddress addressClient = packet.getAddress();
         String crcS = new String(crcB,StandardCharsets.UTF_8);
         System.out.println(crcS);
+        System.out.println(crcS);
         crcClient = Long.parseLong(crcS);
         System.arraycopy(entree, 7,entree,0,entree.length-8);
         long crcResult= verify(entree);
         socket.close();
         transportServer ts = new transportServer(portServeur,portClient,addressClient);
-        if(crcResult != crcClient){
+        /*if(crcResult != crcClient){
             createLog("Recu avec erreur de crc! :P");
             ts.readReceipt(entree,true);
         }
-        else{
+        else{*/
             ts.readReceipt(entree,false);
-        }
+        //}
 
     }
 

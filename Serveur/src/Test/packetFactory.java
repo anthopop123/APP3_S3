@@ -18,6 +18,7 @@ public class packetFactory {
             for (int i=0; i<200;i++,totalArrayPosition++){
                 buffer[i]=i_fichierComplet[totalArrayPosition];
             }
+            totalArrayPosition = 0;
             transmission[packetnumber]= new Packet(buffer,i_ip,packetnumber,totalPacket+1);
             packetnumber++;
         }
@@ -26,6 +27,7 @@ public class packetFactory {
                 smallBuffer[i]=i_fichierComplet[totalArrayPosition];
             }
             transmission[packetnumber]= new Packet(smallBuffer,i_ip,packetnumber,totalPacket+1);
+
         }
         return transmission;
     }

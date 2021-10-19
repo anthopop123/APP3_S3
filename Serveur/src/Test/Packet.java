@@ -8,7 +8,7 @@ public class Packet {
     int totalNumberOfPacket;
     byte []  contenu;
     String Source="13151354";
-    String ipDestination;
+    String ipDestination="13151354";
     long crc;
     Packet(byte []  i_contenu, String i_ipDestination,int i_packetNumber,int i_totalNumberOfPacket)
     {
