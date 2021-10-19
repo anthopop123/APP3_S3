@@ -32,7 +32,7 @@
 import ClientSide.applicationClient;
 import ClientSide.linkClient;
 import ClientSide.observerThread;
-import ServerSide.linkServer;
+
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -41,12 +41,11 @@ import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import ClientSide.transportClient;
-import ServerSide.transportServer;
 import Test.Packet;
 
 import java.io.*;
 import java.net.*;
-
+import java.util.Scanner;
 
 
 /**
@@ -60,14 +59,46 @@ public class QuoteClient {
     public static void main(String[] args) throws IOException {
 
         System.out.println("To transfert file press 9,  To stop the application press 8");
+        /*
         observerThread terminalThread = new observerThread();
         terminalThread.start();
-
+        */
+        String ipAddress="";
+        String nameOfTheFile = "default";
+        Scanner sc= new Scanner(System.in);
+        boolean fin = true;
+        while(fin){
+            int inputCmd = sc.nextInt();
+            if(inputCmd == 9){
+                String dump = sc.nextLine();
+                Boolean zeFlag = false;
+                Boolean isExisting = false;
+                while(!zeFlag){
+                    System.out.print("Enter the name of the file you would like to transfer :  ");
+                    nameOfTheFile= sc.nextLine();
+                    File tempFile = new File(nameOfTheFile);
+                    isExisting = tempFile.exists();
+                    if(isExisting){
+                        zeFlag = Boolean.TRUE;
+                    }
+                }
+                System.out.print("Enter the path of the file you would like to transfer :  ");
+                nameOfTheFile= sc.nextLine();
+                System.out.print("Enter the IP address of the destination :  ");
+                ipAddress= sc.nextLine();
+                System.out.println("File to be transferred :" +nameOfTheFile);
+                System.out.println("Destination address :" +ipAddress);
+                fin = false;
+            }
+            if(inputCmd == 8) {
+                System.exit(0);
+            }
+        }
         byte[] message;
         applicationClient applayer= new applicationClient();
         transportClient transportLayer = new transportClient();
         linkClient datalink =new linkClient();
-        Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(terminalThread.getName2()),terminalThread.getAdr2(),layer.getFilename());
+        Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(nameOfTheFile),ipAddress,applayer.getFilename());
         datalink.CRC(transmission,args[0]);
 
         if (args.length != 1) {
@@ -100,5 +131,4 @@ public class QuoteClient {
         socket.close();
         
     }
-    void converyer()
 }
