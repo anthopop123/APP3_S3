@@ -10,14 +10,14 @@ public class Packet {
     String Source="13151354";
     String ipDestination="13151354";
     long crc;
-    Packet(byte []  i_contenu, String i_ipDestination,int i_packetNumber,int i_totalNumberOfPacket)
+    public Packet(byte []  i_contenu, String i_ipDestination,int i_packetNumber,int i_totalNumberOfPacket)
     {
         packetNumber=i_packetNumber;
         contenu=i_contenu;
         ipDestination=i_ipDestination;
         totalNumberOfPacket=i_totalNumberOfPacket;
     }
-    Packet( String i_ipDestination,int i_packetNumber,int i_totalNumberOfPacket)
+    public Packet( String i_ipDestination,int i_packetNumber,int i_totalNumberOfPacket)
     {
         packetNumber=i_packetNumber;
         ipDestination=i_ipDestination;
@@ -33,11 +33,8 @@ public class Packet {
         String StotalNumberOfPacket = Integer.toBinaryString(totalNumberOfPacket);
         String SipDestination = convertByteArraysToBinary(ipDestination.getBytes());
         String sipSource = convertByteArraysToBinary(Source.getBytes());
-        StringBuilder SBcontenu= new StringBuilder();
-        for (int i=0; i<contenu.length;i++){
-             SBcontenu.append(Integer.toBinaryString(contenu[i]));
-        }
-        String SContenu = SBcontenu.toString();
+
+
         String Scrc = Long.toBinaryString(crc);
         if (SipDestination.length()!=64){
             while (SipDestination.length()!=64){
@@ -65,9 +62,10 @@ public class Packet {
             }
         }
 
-        String transmission = Scrc + sipSource + SipDestination + SpacketNumber + StotalNumberOfPacket + SContenu;
+        String transmission = Scrc + sipSource + SipDestination + SpacketNumber + StotalNumberOfPacket;
         byte[] transmissionFinal;
         transmissionFinal = transmission.getBytes();
+        System.arraycopy(contenu,0,transmissionFinal,transmissionFinal.length-1,contenu.length-1);
         return transmissionFinal;
     }
     void setTotalNumberOfPacket(int i_numberOfPacket){

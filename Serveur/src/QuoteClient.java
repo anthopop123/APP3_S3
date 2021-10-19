@@ -67,7 +67,7 @@ public class QuoteClient {
         String nameOfTheFile = "default";
         Scanner sc= new Scanner(System.in);
         boolean fin = false;
-        while(fin){
+        while(!fin){
             int inputCmd = sc.nextInt();
             if(inputCmd == 9){
                 String dump = sc.nextLine();

@@ -3,13 +3,13 @@ package Test;
 public class packetFactory {
 
     public Packet[] createPacketList(byte [] i_fichierComplet,String i_ip,String filename){
-        String name = "test.txt";
         int totalPacket=i_fichierComplet.length/200;
         if(i_fichierComplet.length % 200 != 0){
+            System.out.println("test");
             totalPacket++;
         }
         Packet[] transmission = new Packet [totalPacket+1];
-        transmission[0]=new Packet(name.getBytes(),i_ip,0,totalPacket);
+        transmission[0]=new Packet(filename.getBytes(),i_ip,0, totalPacket+1);
         int packetnumber=1;
         int totalArrayPosition=0;
         byte[] buffer = new byte[200];
@@ -18,7 +18,6 @@ public class packetFactory {
             for (int i=0; i<200;i++,totalArrayPosition++){
                 buffer[i]=i_fichierComplet[totalArrayPosition];
             }
-            totalArrayPosition = 0;
             transmission[packetnumber]= new Packet(buffer,i_ip,packetnumber,totalPacket+1);
             packetnumber++;
         }

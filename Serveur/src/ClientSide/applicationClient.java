@@ -12,12 +12,6 @@ import java.io.IOException;
  */
 public class applicationClient {
     String filename;
-    void close() {
-
-    }
-    void stopCommunication(byte[] packet){
-
-    }
 
     public byte[] creationMessage(String i_nom) {
         File fichier = new File(i_nom);
@@ -25,15 +19,15 @@ public class applicationClient {
         try {
             stream = new FileInputStream(fichier);
         } catch (FileNotFoundException e) {
-            System.out.println(e);
-            return null;
+            e.printStackTrace();
+
         }
-        byte buffer[]=new byte[(int)fichier.length()];
+        byte[] buffer =new byte[(int)fichier.length()];
         try {
+            assert stream != null;
             stream.read(buffer);
         } catch (IOException e) {
-            System.out.println(e.toString());
-            return null;
+            e.printStackTrace();
         }
         filename = fichier.getName();
         return buffer;
