@@ -1,8 +1,7 @@
 package ServerSide;
 
-
-
 import Test.TransmissionErrorException;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -14,26 +13,15 @@ import java.util.logging.SimpleFormatter;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-
 /**
  * Represente la couche de liaison de donnée du serveur permettant l'analyse des informations et la generation du log.
  */
 public class linkServer {
-
-    boolean verify(byte[] args){
-
-    }
-
-    DatagramPacket receiveSocket(byte[] args){
-
-    }
-
-    File createStat() {
-        long crcClient;
-        int portServeur = 6969;
-        DatagramSocket socket;
-        byte[] entree = new byte[256];
-        byte[] fin = new byte[256];
+    long crcClient;
+    int portServeur = 6969;
+    DatagramSocket socket;
+    byte[] entree = new byte[256];
+    byte[] fin = new byte[256];
 
     /**
      *Createur de la classe linkServeur avec parametre
@@ -45,6 +33,14 @@ public class linkServer {
         portServeur = port;
     }
 
+    /**
+     * Createur de la classe linkServeur sans parametre
+     * @throws IOException quand le socket n'est pas libre
+     */
+    public linkServer() throws IOException {
+        socket = new DatagramSocket(portServeur);
+
+    }
 
     /**
      * Permet de lancer un crc selon un array de byte
@@ -71,26 +67,19 @@ public class linkServer {
         socket.receive(packet);
         entree = new byte[packet.getLength()];
         System.arraycopy(buf, 0,entree,0,entree.length);
-
-        System.out.println(new String(entree, StandardCharsets.UTF_8));
         int portClient = packet.getPort();
         InetAddress addressClient = packet.getAddress();
-        //crcClient = entree[0];
-        //System.arraycopy(entree, 1,entree,0,entree.length-1);
+        crcClient = entree[0];
+        System.arraycopy(entree, 1,entree,0,entree.length-1);
         long crcResult= verify(entree);
         socket.close();
-        /*if(crcResult != crcClient){
+        if(crcResult != crcClient){
             createLog("Recu avec erreur de crc! :P");
         }
         else{
             transportServer ts = new transportServer(portServeur,portClient,addressClient);
             ts.readReceipt(entree);
-        }*/
-        transportServer ts = new transportServer(portServeur,portClient,addressClient);
-        ts.readReceipt(entree);
-
-
-
+        }
     }
 
     /**
@@ -102,17 +91,14 @@ public class linkServer {
         FileHandler fh;
 
         try {
-
-            fh = new FileHandler("C:\\Users\\antho\\AppData\\Local\\GitHubDesktop\\app-2.8.0\\APP3_S3\\Serveur\\liasonDeDonnes.log");
+            fh = new FileHandler("D:\\École\\APP\\3-\\APP3_S3\\Serveur\\liasonDeDonnes.log");
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
             logger.info(message);
-
         } catch (SecurityException | IOException e) {
             e.printStackTrace();
         }
-
 
     }
 

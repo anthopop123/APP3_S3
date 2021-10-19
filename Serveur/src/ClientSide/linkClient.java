@@ -1,5 +1,5 @@
 package ClientSide;
-
+/*
 import ServerSide.transportServer;
 import Test.Packet;
 
@@ -32,7 +32,7 @@ public class linkClient {
         //System.arraycopy(entree, 1,entree,0,entree.length-1);
         long crcResult= verify(entree);
         socket.close();
-*/
+
     }
     void close() {
 

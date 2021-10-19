@@ -46,6 +46,7 @@ public class observerThread extends Thread{
                 setAdr2(ipAddress);
             }
             if(inputCmd == 8) {
+                System.out.println("Vous repasserez on est pas sorteu :D");
                 System.exit(0);
             }
         }
