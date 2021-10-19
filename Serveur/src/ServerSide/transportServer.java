@@ -1,7 +1,7 @@
 package ServerSide;
 
-import Test.TransmissionErrorException;
 
+import Test.TransmissionErrorException;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -48,7 +48,13 @@ public class transportServer {
         portClient = pClient;
         portServeur = pServeur;
         noAddresse = address;
+
     }
+    DatagramPacket sendReceipt(){
+
+
+    }
+
 
     /**
      * Permet de changer le port serveur
@@ -125,15 +131,14 @@ public class transportServer {
         byte[] buf;
         DatagramPacket packet;
 
-
         if (isReceipt) {
             linkServer.createLog("Paquet recu !!! :)");
-            String header = "Success lors de la reception du paquet no " + erreur + "! :)";
+            String header = "Success/lors de la reception du paquet no " + erreur + "! :)";
             Charset charset = StandardCharsets.UTF_8;
             buf = charset.encode(header).array();
         } else {
             linkServer.createLog("Paquet perdu !!! :(");
-            String header = "Erreur lors de l'envoie du paquet no " + erreur + " ! :(";
+            String header = "Erreur/lors de l'envoie du paquet no " + erreur + "! :(";
             Charset charset = StandardCharsets.UTF_8;
             buf = charset.encode(header).array();
         }
@@ -172,3 +177,4 @@ public class transportServer {
 
     }
 }
+

@@ -29,8 +29,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import ClientSide.applicationClient;
+import ClientSide.linkClient;
+import ClientSide.observerThread;
 import ServerSide.linkServer;
-
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -38,15 +40,47 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import ClientSide.transportClient;
+import ServerSide.transportServer;
+import Test.Packet;
 
+import java.io.*;
+import java.net.*;
+
+
+
+/**
+ * public class QuoteClient
+ * La class QuoteClient doit indiquer les directives à l'utilisateur
+ * La class QuoteClient doit demarrer le tread qui observe le terminal.
+ * La class QuoteClient simule la couche physique en creant un socket de Barkely
+ *
+ */
 public class QuoteClient {
     public static void main(String[] args) throws IOException {
+
+        System.out.println("To transfert file press 9,  To stop the application press 8");
+        observerThread terminalThread = new observerThread();
+        terminalThread.start();
+
+        byte[] message;
+        applicationClient applayer= new applicationClient();
+        transportClient transportLayer = new transportClient();
+        linkClient datalink =new linkClient();
+        Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(terminalThread.getName2()),terminalThread.getAdr2(),layer.getFilename());
+        datalink.CRC(transmission,args[0]);
+
+        if (args.length != 1) {
+            System.out.println("Usage: java QuoteClient <hostname>");
+            return;
+        }
         byte[] buf = new byte[256];
         // get a datagram socket
         DatagramSocket socket = new DatagramSocket(25501);
         String header = "ceci est un test denvoie";
         Charset charset = StandardCharsets.US_ASCII;
         buf = charset.encode(header).array();
+
 
         // send request
         InetAddress address = InetAddress.getByName(args[0]);
@@ -63,5 +97,7 @@ public class QuoteClient {
         System.out.println("reussi voici le message de retour : " + received);
 
         socket.close();
+        
     }
+    void converyer()
 }

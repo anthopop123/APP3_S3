@@ -1,7 +1,8 @@
 package ServerSide;
 
-import Test.TransmissionErrorException;
 
+
+import Test.TransmissionErrorException;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -13,15 +14,26 @@ import java.util.logging.SimpleFormatter;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
+
 /**
  * Represente la couche de liaison de donnée du serveur permettant l'analyse des informations et la generation du log.
  */
 public class linkServer {
-    long crcClient;
-    int portServeur = 6969;
-    DatagramSocket socket;
-    byte[] entree = new byte[256];
-    byte[] fin = new byte[256];
+
+    boolean verify(byte[] args){
+
+    }
+
+    DatagramPacket receiveSocket(byte[] args){
+
+    }
+
+    File createStat() {
+        long crcClient;
+        int portServeur = 6969;
+        DatagramSocket socket;
+        byte[] entree = new byte[256];
+        byte[] fin = new byte[256];
 
     /**
      *Createur de la classe linkServeur avec parametre
@@ -33,14 +45,6 @@ public class linkServer {
         portServeur = port;
     }
 
-    /**
-     * Createur de la classe linkServeur sans parametre
-     * @throws IOException quand le socket n'est pas libre
-     */
-    public linkServer() throws IOException {
-        socket = new DatagramSocket(portServeur);
-
-    }
 
     /**
      * Permet de lancer un crc selon un array de byte
@@ -99,6 +103,7 @@ public class linkServer {
         } catch (SecurityException | IOException e) {
             e.printStackTrace();
         }
+
 
     }
 

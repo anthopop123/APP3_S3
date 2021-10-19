@@ -1,7 +1,6 @@
 package ServerSide;
 
 import Test.TransmissionErrorException;
-
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
@@ -34,9 +33,9 @@ public class applicationServer {
      * @param sortie array de byte qui formera le fichier.
      * @param filename string representant le nom du fichier.
      */
-    public void appReceive(byte[] sortie,String filename){
+    public void appReceive(byte[] sortie,String filename) {
         System.out.println(new String(sortie, StandardCharsets.UTF_8));
         System.out.println("--------------------------------------------------------");
-        write(sortie,filename);
+        write(sortie, filename);
     }
 }
