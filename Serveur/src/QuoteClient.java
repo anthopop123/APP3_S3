@@ -44,7 +44,7 @@ public class QuoteClient {
         terminalThread.start();
 
 
-
+        /*
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
             return;
@@ -66,5 +66,6 @@ public class QuoteClient {
         System.out.println("Quote of the Moment: " + received);
 
         socket.close();
+        */
     }
 }
