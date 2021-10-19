@@ -11,8 +11,7 @@ import java.io.IOException;
  * demmare
  */
 public class applicationClient {
-    File fichierAEnvoyer;
-
+    String filename;
     void close() {
 
     }
@@ -36,6 +35,10 @@ public class applicationClient {
             System.out.println(e.toString());
             return null;
         }
+        filename = fichier.getName();
         return buffer;
+    }
+    public String getFilename(){
+        return filename;
     }
 }

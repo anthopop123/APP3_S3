@@ -20,7 +20,7 @@ public class Packet {
         ipDestination=i_ipDestination;
         totalNumberOfPacket=i_totalNumberOfPacket;
     }
-    void generateCrc(){
+    public void generateCrc(){
         Checksum checksum = new CRC32();
         checksum.update(contenu, 0, contenu.length);
         crc = checksum.getValue();

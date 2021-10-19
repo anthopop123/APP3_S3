@@ -30,6 +30,7 @@
  */
 
 import ClientSide.applicationClient;
+import ClientSide.linkClient;
 import ClientSide.observerThread;
 
 import java.io.IOException;
@@ -38,7 +39,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import ClientSide.transportClient;
 import ServerSide.transportServer;
+import Test.Packet;
 
 
 /**
@@ -52,19 +55,15 @@ public class QuoteClient {
     public static void main(String[] args) throws IOException {
 
         System.out.println("To transfert file press 9,  To stop the application press 8");
-        Thread terminalThread = new observerThread();
+        observerThread terminalThread = new observerThread();
         terminalThread.start();
 
-        String testName = ((observerThread) terminalThread).getName2();       // O.o
-        String testAdr = ((observerThread) terminalThread).getAdr2();
-
-        String nom="";
-        String ip="";
         byte[] message;
-        applicationClient layer= new applicationClient();
-        message = layer.creationMessage(nom);
+        applicationClient applayer= new applicationClient();
         transportClient transportLayer = new transportClient();
-        transportLayer.
+        linkClient datalink =new linkClient();
+        Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(terminalThread.getName2()),terminalThread.getAdr2(),layer.getFilename());
+        datalink.CRC(transmission);
 
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
