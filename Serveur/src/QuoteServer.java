@@ -29,10 +29,12 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-import java.io.*;
+
+import java.io.IOException;
 
 public class QuoteServer {
     public static void main(String[] args) throws IOException {
         new QuoteServerThread().start();
+
     }
 }

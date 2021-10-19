@@ -1,6 +1,9 @@
 package ClientSide;
 import java.io.File;
-/*
+import Test.TransmissionErrorException;
+import java.io.IOException;
+
+
 public class applicationClient {
 
         File fichierAEnvoyer;
@@ -14,5 +17,7 @@ public class applicationClient {
     void close() {
 
     }
+    void stopCommunication(byte[] packet){
+
+    }
 }
-*/

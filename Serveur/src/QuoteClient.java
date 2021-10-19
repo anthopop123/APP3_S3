@@ -30,9 +30,11 @@
  */
 
 import ClientSide.observerThread;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
-import java.io.*;
-import java.net.*;
 
 
 /**
@@ -56,7 +58,7 @@ public class QuoteClient {
         // send request
         byte[] buf = new byte[256];
         InetAddress address = InetAddress.getByName(args[0]);
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4445);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 25500);
         socket.send(packet);
         // get response
         packet = new DatagramPacket(buf, buf.length);

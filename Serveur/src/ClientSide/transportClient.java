@@ -3,7 +3,7 @@ package ClientSide;
 
 
 import Test.Packet;
-/*
+
 
 public class transportClient {
     void createPacket() {
@@ -20,4 +20,4 @@ public class transportClient {
     void ordonnerPacket() {
 
     }
-}*/
+}
