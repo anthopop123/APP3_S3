@@ -1,5 +1,9 @@
 package ClientSide;
 
+import Test.TransmissionErrorException;
+
+import java.io.IOException;
+
 public class applicationClient {
     void terminalRead(){
 
@@ -10,6 +14,9 @@ public class applicationClient {
     }
 
     void close() {
+
+    }
+    void stopCommunication(byte[] packet){
 
     }
 }

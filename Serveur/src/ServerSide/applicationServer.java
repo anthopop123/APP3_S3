@@ -2,10 +2,10 @@ package ServerSide;
 
 import Test.TransmissionErrorException;
 
-import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class applicationServer {
 
@@ -13,17 +13,6 @@ public class applicationServer {
     BufferedReader in = null;
 
 
-    void stopCommunication(byte[] packet){
-
-        try {
-            transportServer ts = new transportServer();
-            ts.readReceipt(packet);
-        }
-        catch (TransmissionErrorException | IOException te){
-            System.out.println("Erreur dans le test : " + te.getMessage());
-            System.exit(0);
-        }
-    }
     void listeners(){
 
     }
