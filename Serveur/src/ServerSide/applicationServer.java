@@ -1,5 +1,5 @@
-package ClientSide;
-/*
+package ServerSide;
+
 public class applicationServer {
 
     void stopCommunication(TransmissionErrorException io){
@@ -14,4 +14,3 @@ public class applicationServer {
 
     }
 }
-*/

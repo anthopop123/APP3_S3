@@ -1,5 +1,7 @@
-package ServerSide;
+package ClientSide;
 import java.io.File;
+import Test.TransmissionErrorException;
+import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,6 +29,9 @@ public class applicationClient {
     }
 
     void close() {
+
+    }
+    void stopCommunication(byte[] packet){
 
     }
 }
