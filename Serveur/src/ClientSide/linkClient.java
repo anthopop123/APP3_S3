@@ -10,7 +10,13 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 
+import static java.lang.Integer.parseInt;
+
 public class linkClient {
+    int actuelPos= 0;
+    DatagramSocket socket = null;
+    DatagramPacket packet= null;
+
     void init(String nom, String ip) {
 
     }
@@ -22,31 +28,37 @@ public class linkClient {
         send(transmission, arg);
     }
 
-    void send(Packet[] transmission, String arg) throws IOException {
-        DatagramSocket socket = null;
+    public void send(Packet[] transmission, String arg) throws IOException {
         socket = new DatagramSocket(25501);
         InetAddress addressClient = InetAddress.getByName(arg);
-        for (int i = 0; i < transmission.length; i++) {
-            DatagramPacket packet = new DatagramPacket(transmission[i].tobyte(), transmission[i].tobyte().length, addressClient, 25500);
+
+        packet = new DatagramPacket(transmission[actuelPos].tobyte(), transmission[actuelPos].tobyte().length, addressClient, 25500);
+
+        socket.send(packet);
+        while(actuelPos != transmission.length){
+            verifySend();
+            packet = new DatagramPacket(transmission[actuelPos].tobyte(), transmission[actuelPos].tobyte().length, addressClient, 25500);
             socket.send(packet);
-            byte[] buf = new byte[256];
-            packet = new DatagramPacket(buf, buf.length);
-            socket.receive(packet);
-            byte[] sortie = new byte[packet.getLength() - 4];
-            System.arraycopy(buf, 0, sortie, 0, sortie.length);
-            String received = new String(sortie, 0, sortie.length);
-            System.out.println("reussi voici le message de retour : " + received);
-            socket.close();
         }
+
+        socket.close();
     }
+    public void verifySend() throws IOException {
+        byte[] buf = new byte[256];
+        packet = new DatagramPacket(buf, buf.length);
+        socket.receive(packet);
 
-    void close() {
-
+        byte[] sortie = new byte[packet.getLength()];
+        String received = new String(sortie, 0, sortie.length);
+        if(received.split("/", 0)[0].equals("Success"))
+        {
+            actuelPos++;
+        }
+        System.out.println(actuelPos);
+        received.replace("/", " ");
+        //System.arraycopy(buf, 0, sortie, 0, sortie.length);
+        System.out.println("reussi voici le message de retour : " + received);
     }
-
-    boolean Verify(byte[] args) {
-        return true;
-    }
-
-
 }
+
+
