@@ -6,6 +6,11 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class applicationServer {
+    /**
+     * Creer un file qui contiendra l'ensemble des packets et lui donnera un nom de filename
+     * @param info array de byte contenant l'information a ecrire dans le fichier
+     * @param filename string pour representer le nom du fichier
+     */
     public void write(byte[] info, String filename) {
         String infoFile = null;
         File fichier;
@@ -23,6 +28,12 @@ public class applicationServer {
             e.printStackTrace();
         }
     }
+
+    /**
+     * function de la couche application pour recevoir l'array de byte et lancer le write.
+     * @param sortie array de byte qui formera le fichier.
+     * @param filename string representant le nom du fichier.
+     */
     public void appReceive(byte[] sortie,String filename){
         System.out.println(new String(sortie, StandardCharsets.UTF_8));
         System.out.println("--------------------------------------------------------");
