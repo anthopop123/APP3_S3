@@ -12,23 +12,35 @@ import java.nio.charset.StandardCharsets;
 
 
 public class transportServer {
-    DatagramSocket socket = new DatagramSocket();
-    int position;
-    int erreur;
-    int noPort;
+    DatagramSocket socket;
+    int position = 0;
+    int erreur = 0;
+    int portClient = 0;
+    int portServeur = 6969;
+    int baseball = 0;
     InetAddress noAddresse;
 
     public transportServer() throws IOException {
+        socket = new DatagramSocket(portServeur);
+    }
+    public transportServer(int pServeur, int pClient, InetAddress address) throws IOException {
+        socket = new DatagramSocket(pServeur);
+        portClient = pClient;
+        portServeur = pServeur;
+        noAddresse = address;
     }
 
-    public void getPort(int port){
-        noPort  = port;
+    public void setPortServeur(int port) throws SocketException {
+        portServeur  = port;
+        socket = new DatagramSocket(port);
     }
-    public void getAddress(InetAddress address){
+    public void setPortClient(int port){
+        portClient  = port;
+    }
+    public void setAddress(InetAddress address){
         noAddresse = address;
     }
     public void readReceipt(byte[] packet) throws TransmissionErrorException, IOException {
-        int baseball = 0;
         int[] listPosition = new int[131072];
         byte[] pos = new byte[5];
         System.arraycopy(packet, 4,pos,0,2);
@@ -50,28 +62,25 @@ public class transportServer {
         sendReceipt(true);
     }
     public void sendReceipt(boolean isReceipt) throws IOException {
-        byte[] buf = new byte[256];
-        DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        InetAddress address = packet.getAddress();
-        int port = packet.getPort();
+        byte[] buf;
+        DatagramPacket packet;
+
 
         if(isReceipt){
-            linkServer.createStat("Paquet recu");
-            String header = "ceci est un success";
+            linkServer.createStat("Paquet recu !!! :)");
+            String header = "Success lors de la reception du paquet no " +erreur+ "! :)";
             Charset charset = StandardCharsets.US_ASCII;
             buf = charset.encode(header).array();
-            packet = new DatagramPacket(buf, buf.length, noAddresse, noPort);
-            socket.send(packet);
         }
         else{
-            linkServer.createStat("Paquet perdu");
-            String header = "Il y a eu un erreur lors de l'envoie du paquet no "+erreur+" ! :(";
+            linkServer.createStat("Paquet perdu !!! :(");
+            String header = "Erreur lors de l'envoie du paquet no "+erreur+" ! :(";
             Charset charset = StandardCharsets.US_ASCII;
             buf = charset.encode(header).array();
-            packet = new DatagramPacket(buf, buf.length, noAddresse, noPort);
-            socket.send(packet);
         }
+        packet = new DatagramPacket(buf, buf.length, noAddresse, portClient);
+        socket.send(packet);
         socket.close();
     }
 }

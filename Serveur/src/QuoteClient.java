@@ -29,47 +29,37 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import ServerSide.linkServer;
+
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class QuoteClient {
     public static void main(String[] args) throws IOException {
-
-        if (args.length != 1) {
-            System.out.println("Usage: java QuoteClient <hostname>");
-            return;
-        }
-
-
-
-
+        byte[] buf = new byte[256];
         // get a datagram socket
-        DatagramSocket socket = new DatagramSocket();
-
-
+        DatagramSocket socket = new DatagramSocket(25501);
+        String header = "ceci est un test denvoie";
+        Charset charset = StandardCharsets.US_ASCII;
+        buf = charset.encode(header).array();
 
         // send request
-        byte[] buf = new byte[256];
         InetAddress address = InetAddress.getByName(args[0]);
         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 25500);
         socket.send(packet);
         // get response
+        buf = new byte[256];
         packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
         // display response
         String received = new String(packet.getData(), 0, packet.getLength());
-        System.out.println("Quote of the Moment: " + received);
+        System.out.println("reussi voici le message de retour : " + received);
 
         socket.close();
-    }
-    public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            System.out.println("La session c'est terminee avec succes");
-            System.exit(0);
-        }
     }
 }
