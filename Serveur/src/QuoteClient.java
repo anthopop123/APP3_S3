@@ -47,6 +47,18 @@ public class QuoteClient {
         Thread terminalThread = new observerThread();
         terminalThread.start();
 
+
+        byte[] message;
+        applicationClient applayer= new applicationClient();
+        transportClient transportLayer = new transportClient();
+        linkClient datalink =new linkClient();
+        Packet[] transmission = transportLayer.creerTrame(applayer.creationMessage(terminalThread.getName2()),terminalThread.getAdr2(),layer.getFilename());
+        datalink.CRC(transmission,args[0]);
+
+        if (args.length != 1) {
+            System.out.println("Usage: java QuoteClient <hostname>");
+            return;
+        }
         byte[] buf = new byte[256];
         // get a datagram socket
         DatagramSocket socket = new DatagramSocket(25501);
