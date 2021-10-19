@@ -29,12 +29,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import ClientSide.applicationClient;
 import ClientSide.observerThread;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import ServerSide.observerThread;
+import ServerSide.transportServer;
+
 import java.io.*;
 import java.net.*;
 
@@ -46,8 +49,13 @@ public class QuoteClient {
     public static void main(String[] args) throws IOException {
         Thread terminalThread = new observerThread();
         terminalThread.start();
-
-
+        String nom="";
+        String ip="";
+        byte[] message;
+        applicationClient layer= new applicationClient();
+        message = layer.creationMessage(nom);
+        transportClient transportLayer = new transportClient();
+        transportLayer.
         /*
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
@@ -72,4 +80,5 @@ public class QuoteClient {
         socket.close();
         */
     }
+    void converyer()
 }

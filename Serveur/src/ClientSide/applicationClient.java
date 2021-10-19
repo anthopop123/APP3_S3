@@ -9,29 +9,29 @@ import java.io.IOException;
 public class applicationClient {
     File fichierAEnvoyer;
 
-    void init(String nom, String ip){
-        File fichier = new File(nom);
+    void close() {
+
+    }
+    void stopCommunication(byte[] packet){
+
+    }
+
+    public byte[] creationMessage(String i_nom) {
+        File fichier = new File(i_nom);
         FileInputStream stream = null;
         try {
             stream = new FileInputStream(fichier);
         } catch (FileNotFoundException e) {
             System.out.println(e);
-            return;
+            return null;
         }
         byte buffer[]=new byte[(int)fichier.length()];
         try {
             stream.read(buffer);
         } catch (IOException e) {
             System.out.println(e.toString());
-            return;
+            return null;
         }
-
-    }
-
-    void close() {
-
-    }
-    void stopCommunication(byte[] packet){
-
+        return buffer;
     }
 }
