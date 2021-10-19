@@ -29,7 +29,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+import ClientSide.applicationClient;
 import ClientSide.observerThread;
 import ServerSide.linkServer;
 import java.awt.event.KeyEvent;
@@ -39,6 +39,11 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import ServerSide.transportServer;
+
+import java.io.*;
+import java.net.*;
+
 
 
 /**
@@ -54,8 +59,17 @@ public class QuoteClient {
         System.out.println("To transfert file press 9,  To stop the application press 8");
         Thread terminalThread = new observerThread();
         terminalThread.start();
+
         String testName = ((observerThread) terminalThread).getName2();       // O.o
         String testAdr = ((observerThread) terminalThread).getAdr2();
+
+        String nom="";
+        String ip="";
+        byte[] message;
+        applicationClient layer= new applicationClient();
+        message = layer.creationMessage(nom);
+        transportClient transportLayer = new transportClient();
+        transportLayer.
 
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
@@ -85,5 +99,7 @@ public class QuoteClient {
         System.out.println("reussi voici le message de retour : " + received);
 
         socket.close();
+        
     }
+    void converyer()
 }

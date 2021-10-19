@@ -13,13 +13,13 @@ public class packetFactory {
         int totalArrayPosition=0;
         byte[] buffer = new byte[200];
         byte[] smallBuffer= new byte[i_fichierComplet.length % 200];
-        do {
+        while(packetnumber!=totalPacket){
             for (int i=0; i<200;i++,totalArrayPosition++){
                 buffer[i]=i_fichierComplet[totalArrayPosition];
             }
             transmission[packetnumber]= new Packet(buffer,i_ip,packetnumber,totalPacket+1);
             packetnumber++;
-        }while(packetnumber!=totalPacket-1);
+        }
         if(i_fichierComplet.length % 200 != 0){
             for (int i=0; i<smallBuffer.length;i++,totalArrayPosition++){
                 smallBuffer[i]=i_fichierComplet[totalArrayPosition];
@@ -28,7 +28,5 @@ public class packetFactory {
         }
         return transmission;
     }
-
-
 
 }

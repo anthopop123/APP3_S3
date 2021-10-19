@@ -19,7 +19,6 @@ public class observerThread extends Thread{
     public String nomFichier;
     public String nomAdr;
     public void run(){
-
         Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
         while(true){                           //God, I hate this while true
             int inputCmd = sc.nextInt();
