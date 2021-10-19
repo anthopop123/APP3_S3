@@ -14,8 +14,8 @@ public class transportClient {
 
     }
 
-    Packet[] creerTrameHeader(String [] args) {
-
+    Packet[] creerTrameHeader(Packet[] i_transmission) {
+    return i_transmission;
     }
     void ordonnerPacket() {
 

@@ -1,4 +1,4 @@
-package ClientSide;
+package ServerSide;
 
 import java.io.File;
 import java.util.Scanner;
@@ -23,11 +23,13 @@ public class observerThread extends Thread{
                         zeFlag = Boolean.TRUE;
                     }
                 }
+                System.out.print("Enter the path of the file you would like to transfer :  ");
+                String nameOfTheFile= sc.nextLine();
                 System.out.print("Enter the IP address of the destination :  ");
                 String ipAddress= sc.nextLine();
                 System.out.println("File to be transferred :" +nameOfTheFile);
                 System.out.println("Destination address :" +ipAddress);
-                //appeler la couche transport
+
             }
             if(inputCmd == 8) {
                 System.exit(0);
