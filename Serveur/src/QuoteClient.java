@@ -29,15 +29,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import ClientSide.observerThread;
+import ServerSide.observerThread;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 
 
 /**
