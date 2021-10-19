@@ -1,6 +1,6 @@
-package ServerSide;
+package ClientSide;
 import java.io.File;
-
+/*
 public class applicationClient {
 
         File fichierAEnvoyer;
@@ -15,3 +15,4 @@ public class applicationClient {
 
     }
 }
+*/

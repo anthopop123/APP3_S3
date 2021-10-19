@@ -1,7 +1,5 @@
-package ClientSide;
+package ServerSide;
 
-import java.io.File;
-import java.net.DatagramPacket;
 /*
 public class linkServer {
     boolean verify(byte[] args){

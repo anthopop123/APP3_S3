@@ -1,4 +1,4 @@
-package ServerSide;
+package ClientSide;
 /*
 public class linkClient {
     void init(String nom, String ip){

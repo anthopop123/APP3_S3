@@ -1,7 +1,8 @@
 package ClientSide;
 
+import java.io.File;
 import java.util.Scanner;
-import java.util.*;
+
 public class observerThread extends Thread{
     public void run(){
 
@@ -10,8 +11,18 @@ public class observerThread extends Thread{
             int inputCmd = sc.nextInt();
             if(inputCmd == 9){
                 String dump = sc.nextLine();
-                System.out.print("Enter the name of the file you would like to transfer :  ");
-                String nameOfTheFile= sc.nextLine();
+                Boolean zeFlag = false;
+                Boolean isExisting = false;
+                String nameOfTheFile = "default";
+                while(!zeFlag){
+                    System.out.print("Enter the name of the file you would like to transfer :  ");
+                    nameOfTheFile= sc.nextLine();
+                    File tempFile = new File(nameOfTheFile);
+                    isExisting = tempFile.exists();
+                    if(isExisting){
+                        zeFlag = Boolean.TRUE;
+                    }
+                }
                 System.out.print("Enter the IP address of the destination :  ");
                 String ipAddress= sc.nextLine();
                 System.out.println("File to be transferred :" +nameOfTheFile);

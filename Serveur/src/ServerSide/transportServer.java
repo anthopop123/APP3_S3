@@ -1,6 +1,5 @@
-package ClientSide;
+package ServerSide;
 
-import java.net.DatagramPacket;
 /*
 public class transportServer {
     DatagramPacket readReceipt(){
