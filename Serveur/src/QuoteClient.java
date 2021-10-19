@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+
+import ClientSide.transportClient;
 import ServerSide.observerThread;
 import ServerSide.transportServer;
 
@@ -55,7 +57,7 @@ public class QuoteClient {
         applicationClient layer= new applicationClient();
         message = layer.creationMessage(nom);
         transportClient transportLayer = new transportClient();
-        transportLayer.
+        transportLayer.creerTrame();
         /*
         if (args.length != 1) {
             System.out.println("Usage: java QuoteClient <hostname>");
