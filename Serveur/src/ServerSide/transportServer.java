@@ -140,7 +140,6 @@ public class transportServer {
         }
         packet = new DatagramPacket(buf, buf.length, noAddresse, portClient);
         socket.send(packet);
-        socket.close();
     }
 
     /**
@@ -152,20 +151,21 @@ public class transportServer {
         byte[] sortie = new byte[entree.length];
         if(position == 0){
             byte[] filenameArray = new byte[5];
-            System.arraycopy(entree, 19, filenameArray, 0, entree.length-20);
-            System.arraycopy(entree, 17, sortie, 0, 2);
+            System.arraycopy(entree, 31, filenameArray, 0, entree.length-32);
+            System.arraycopy(entree, 31, sortie, 0, 2);
             fileCompletSize = sortie[1];
             fileCompletSize |= sortie[0] << 8;
             fileComplet = new byte[fileCompletSize*200];
             filename = new String(filenameArray, StandardCharsets.UTF_8);
         }
         else if(position == fileCompletSize-1){
-            System.arraycopy(entree, 19, sortie, 0, entree.length-20);
+            System.arraycopy(entree, 31, sortie, 0, entree.length-32);
             System.arraycopy(sortie, 0, fileComplet, position*200, sortie.length);
             app.appReceive(fileComplet, filename);
+            socket.close();
         }
         else{
-            System.arraycopy(entree, 19, sortie, 0, entree.length-20);
+            System.arraycopy(entree, 31, sortie, 0, entree.length-32);
             System.arraycopy(sortie, 0, fileComplet, position*200, entree.length-1);
             try {
                 server.receiveSocket();
