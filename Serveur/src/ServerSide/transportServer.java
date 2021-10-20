@@ -20,9 +20,9 @@ public class transportServer {
     int portClient = 0;
     int portServeur = 6969;
     int baseball = 0;
-    int fileCompletSize = 1;
+    int fileCompletSize = 2;
     byte[] fileComplet = new byte[1000];
-    String filename = "test.txt";
+    String filename = "";
 
     InetAddress noAddresse;
 
@@ -84,10 +84,17 @@ public class transportServer {
      * @throws TransmissionErrorException S'il y a une perte de 3 paquets
      */
 
-    public void readReceipt(byte[] packet,boolean crc) throws TransmissionErrorException {
+    public void readReceipt(byte[] packet) throws TransmissionErrorException {
         int[] listPosition = new int[131072];
         byte[] pos = new byte[5];
-        System.arraycopy(packet, 15, pos, 0, 2);
+        if(position == 0){
+            System.arraycopy(packet, 29, pos, 0, 2);
+        }
+        else {
+            System.arraycopy(packet, 28, pos, 0, 2);
+        }
+
+
 
         position = pos[1];
         position |= pos[0] << 8;
@@ -95,7 +102,7 @@ public class transportServer {
         listPosition[position] = 1;
 
         for (int i = 0; i < listPosition.length; i++) {
-            if (listPosition[i] == 1 && listPosition[i + 1] == 0 && listPosition[i + 2] == 1 || crc) {
+            if (listPosition[i] == 1 && listPosition[i + 1] == 0 && listPosition[i + 2] == 1) {
                 baseball++;
                 erreur = i + 1;
                 try {
@@ -129,12 +136,12 @@ public class transportServer {
 
         if (isReceipt) {
             linkServer.createLog("Paquet recu !!! :)");
-            String header = "Success/lors de la reception du paquet no " + erreur + "! :)";
+            String header = "Success/lors de la reception du paquet no " + position + "! :)";
             Charset charset = StandardCharsets.UTF_8;
             buf = charset.encode(header).array();
         } else {
             linkServer.createLog("Paquet perdu !!! :(");
-            String header = "Erreur/lors de l'envoie du paquet no " + erreur + "! :(";
+            String header = "Erreur/lors de l'envoie du paquet no " + position + "! :(";
             Charset charset = StandardCharsets.UTF_8;
             buf = charset.encode(header).array();
         }
@@ -156,9 +163,10 @@ public class transportServer {
         if(position == 0){
             byte[] filenameArray = new byte[entree.length-32];
             System.arraycopy(entree, 33, filenameArray, 0, entree.length-34);
-            System.arraycopy(entree, 31, sortie, 0, 2);
-            fileCompletSize = sortie[1];
-            fileCompletSize |= sortie[0] << 8;
+            byte[] testLong = new byte[2];
+            System.arraycopy(entree, 31, testLong, 0, 2);
+            fileCompletSize = testLong[1];
+            fileCompletSize |= testLong[0] << 8;
             fileComplet = new byte[fileCompletSize*200];
             filename = new String(filenameArray, StandardCharsets.UTF_8);
 

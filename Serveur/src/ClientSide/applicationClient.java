@@ -20,6 +20,8 @@ public class applicationClient {
      */
     public byte[] creationMessage(String i_nom) {
         File fichier = new File(i_nom);
+        String[] test= i_nom.split("\\\\");
+        filename = test[test.length-1];
         FileInputStream stream = null;
         try {
             stream = new FileInputStream(fichier);

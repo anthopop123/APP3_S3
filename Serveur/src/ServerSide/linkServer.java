@@ -23,6 +23,7 @@ import java.util.zip.Checksum;
 public class linkServer {
     int portServeur = 6969;
     byte[] crcClient;
+    int nbrElm = 1;
     DatagramSocket socket;
     byte[] entree = new byte[256];
     byte[] fin = new byte[256];
@@ -66,8 +67,8 @@ public class linkServer {
      */
     public void receiveSocket() throws IOException, TransmissionErrorException {
 
+        transportServer ts= null;
 
-        int nbrElm = 1;
 
         for(int i= 0; i<=nbrElm;i++){
             byte[] buf = new byte[256];
@@ -78,27 +79,32 @@ public class linkServer {
             System.arraycopy(buf, 0, entree, 0, entree.length);
             byte[] pos = new byte[2];
             System.arraycopy(entree, 39, pos, 0, 2);
-            nbrElm = pos[1];
-            nbrElm |= pos[0] << 8;
+
             System.out.println(nbrElm);
             crcClient = new byte[8];
             System.arraycopy(entree, 0, crcClient, 0, 8);
             int portClient = packet.getPort();
             InetAddress addressClient = packet.getAddress();
+            if (i == 0){
+                ts = new transportServer(25002, portClient, addressClient);
+                int nbrElmTest = pos[1];
+                nbrElmTest |= pos[0] << 8;
+                nbrElm = nbrElmTest;
+            }
 
-            System.arraycopy(entree, 7, entree, 0, entree.length - 8);
+            System.arraycopy(entree, 8, entree, 0, entree.length - 8);
 
 
             long crcResult = verify(entree);
             String crc = Long.toHexString(crcResult);
 
-            transportServer ts = new transportServer(25002, portClient, addressClient);
 
-            if (Arrays.equals(crc.getBytes(), crcClient)) {
+
+            if (!Arrays.equals(crc.getBytes(), crcClient)) {
                 createLog("Recu avec erreur de crc! :P");
-                ts.readReceipt(entree, true);
+                ts.readReceipt(entree);
             } else {
-                ts.readReceipt(entree, false);
+                ts.readReceipt(entree);
             }
         }
 

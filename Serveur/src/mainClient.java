@@ -59,7 +59,7 @@ public class mainClient {
     public static void main(String[] args) throws IOException {
 
         System.out.println("To transfert file press 9,  To stop the application press 8");
-        /*
+        /*9
         observerThread terminalThread = new observerThread();
         terminalThread.start();
         */
