@@ -55,7 +55,7 @@ import java.util.Scanner;
  * La class QuoteClient simule la couche physique en creant un socket de Barkely
  *
  */
-public class QuoteClient {
+public class mainClient {
     public static void main(String[] args) throws IOException {
 
         System.out.println("To transfert file press 9,  To stop the application press 8");

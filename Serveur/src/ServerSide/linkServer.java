@@ -4,10 +4,12 @@ package ServerSide;
 
 import Test.TransmissionErrorException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -20,7 +22,7 @@ import java.util.zip.Checksum;
  */
 public class linkServer {
     int portServeur = 6969;
-    long crcClient;
+    byte[] crcClient;
     DatagramSocket socket;
     byte[] entree = new byte[256];
     byte[] fin = new byte[256];
@@ -63,33 +65,44 @@ public class linkServer {
      * @throws TransmissionErrorException throw si j'ai 3 fichier perdu dans le transportServer lors de la verification d'arriver des paquet.
      */
     public void receiveSocket() throws IOException, TransmissionErrorException {
-        byte[] buf = new byte[256];
-        DatagramPacket packet = new DatagramPacket(buf, buf.length);
-        socket.receive(packet);
-        String p = new String(packet.getData(),StandardCharsets.UTF_8);
-        System.out.println(p);
-        entree = new byte[packet.getLength()];
-
-        System.arraycopy(buf, 0,entree,0,entree.length);
-        byte[] crcB = new byte[8];
-        System.arraycopy(entree, 0,crcB,0,8);
-        int portClient = packet.getPort();
-        InetAddress addressClient = packet.getAddress();
-        String crcS = new String(crcB,StandardCharsets.UTF_8);
 
 
-        System.out.println(crcS);
-        crcClient = Long.parseLong(crcS);
-        System.arraycopy(entree, 7,entree,0,entree.length-8);
-        long crcResult= verify(entree);
-        transportServer ts = new transportServer(portServeur,portClient,addressClient);
-        if(crcResult != crcClient){
-            createLog("Recu avec erreur de crc! :P");
-            ts.readReceipt(entree,true,this);
+        int nbrElm = 1;
+
+        for(int i= 0; i<=nbrElm;i++){
+            byte[] buf = new byte[256];
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            socket.receive(packet);
+
+            entree = new byte[packet.getLength()];
+            System.arraycopy(buf, 0, entree, 0, entree.length);
+            byte[] pos = new byte[2];
+            System.arraycopy(entree, 39, pos, 0, 2);
+            nbrElm = pos[1];
+            nbrElm |= pos[0] << 8;
+            System.out.println(nbrElm);
+            crcClient = new byte[8];
+            System.arraycopy(entree, 0, crcClient, 0, 8);
+            int portClient = packet.getPort();
+            InetAddress addressClient = packet.getAddress();
+
+            System.arraycopy(entree, 7, entree, 0, entree.length - 8);
+
+
+            long crcResult = verify(entree);
+            String crc = Long.toHexString(crcResult);
+
+            transportServer ts = new transportServer(25002, portClient, addressClient);
+
+            if (Arrays.equals(crc.getBytes(), crcClient)) {
+                createLog("Recu avec erreur de crc! :P");
+                ts.readReceipt(entree, true);
+            } else {
+                ts.readReceipt(entree, false);
+            }
         }
-        else{
-            ts.readReceipt(entree,false,this);
-        }
+
+
 
     }
 

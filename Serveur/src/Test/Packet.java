@@ -93,7 +93,7 @@ public class Packet {
         transmissionIntermediaire = new BigInteger(transmission, 2).toByteArray();
         byte[] transmissionFinal = new byte[transmissionIntermediaire.length+contenu.length];
         System.arraycopy(transmissionIntermediaire,0,transmissionFinal,0,transmissionIntermediaire.length);
-        System.arraycopy(contenu,0,transmissionFinal,transmissionIntermediaire.length-1,contenu.length);
+        System.arraycopy(contenu,0,transmissionFinal,transmissionIntermediaire.length,contenu.length);
         return transmissionFinal;
     }
 

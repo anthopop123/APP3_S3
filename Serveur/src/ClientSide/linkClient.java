@@ -62,8 +62,7 @@ public class linkClient {
         byte[] buf = new byte[256];
         packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
-        byte[] sortie = new byte[packet.getLength()];
-        String received = new String(sortie, 0, sortie.length);
+        String received = new String(packet.getData(), 0, packet.getLength()-4);
         if(!received.split("/", 0)[0].equals("Success"))
         {
             actuelPos--;

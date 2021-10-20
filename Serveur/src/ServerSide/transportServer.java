@@ -20,7 +20,7 @@ public class transportServer {
     int portClient = 0;
     int portServeur = 6969;
     int baseball = 0;
-    int fileCompletSize = 0;
+    int fileCompletSize = 1;
     byte[] fileComplet = new byte[1000];
     String filename = "test.txt";
 
@@ -29,7 +29,7 @@ public class transportServer {
     /**
      * Createur vide de la couche transportServeur, initialise le port de base
      *
-     * @throws IOException
+     * @throws IOException if socket existe deja
      */
     public transportServer() throws IOException {
         socket = new DatagramSocket(portServeur);
@@ -38,10 +38,10 @@ public class transportServer {
 
     /**
      * Le createur avec tout les arguments pour la couche transportServeur
-     * @param pServeur
-     * @param pClient
-     * @param address
-     * @throws IOException
+     * @param pServeur  int port du serveur
+     * @param pClient int port du client
+     * @param address int address ip du serveur
+     * @throws IOException exeption si socket existe deja
      */
     public transportServer(int pServeur, int pClient, InetAddress address) throws IOException {
         socket = new DatagramSocket(pServeur);
@@ -84,10 +84,11 @@ public class transportServer {
      * @throws TransmissionErrorException S'il y a une perte de 3 paquets
      */
 
-    public void readReceipt(byte[] packet,boolean crc,linkServer server) throws TransmissionErrorException {
+    public void readReceipt(byte[] packet,boolean crc) throws TransmissionErrorException {
         int[] listPosition = new int[131072];
         byte[] pos = new byte[5];
         System.arraycopy(packet, 15, pos, 0, 2);
+
         position = pos[1];
         position |= pos[0] << 8;
 
@@ -108,13 +109,12 @@ public class transportServer {
                 throw new TransmissionErrorException("Il y a perte de connexion (3 paquets perdu)");
             }
         }
-
         try {
             sendReceipt(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        sendApp(packet,server);
+        sendApp(packet);
     }
 
     /**
@@ -138,42 +138,40 @@ public class transportServer {
             Charset charset = StandardCharsets.UTF_8;
             buf = charset.encode(header).array();
         }
-        packet = new DatagramPacket(buf, buf.length, noAddresse, portClient);
-        socket.send(packet);
+        for(int i=0;i<=fileCompletSize;i++){
+            packet = new DatagramPacket(buf, buf.length, noAddresse, portClient);
+            socket.send(packet);
+        }
+
+
     }
 
     /**
      * Permet  l'application Serveur avec le bon formatage en retirant le header et ensuite envoyer l'ensemble du packet
      * @param entree de byte qui refere le packet actuelle
      */
-    public void sendApp(byte[] entree,linkServer server){
+    public void sendApp(byte[] entree){
         applicationServer app = new applicationServer();
         byte[] sortie = new byte[entree.length];
         if(position == 0){
-            byte[] filenameArray = new byte[5];
-            System.arraycopy(entree, 31, filenameArray, 0, entree.length-32);
+            byte[] filenameArray = new byte[entree.length-32];
+            System.arraycopy(entree, 33, filenameArray, 0, entree.length-34);
             System.arraycopy(entree, 31, sortie, 0, 2);
             fileCompletSize = sortie[1];
             fileCompletSize |= sortie[0] << 8;
             fileComplet = new byte[fileCompletSize*200];
             filename = new String(filenameArray, StandardCharsets.UTF_8);
+
         }
         else if(position == fileCompletSize-1){
-            System.arraycopy(entree, 31, sortie, 0, entree.length-32);
+            System.arraycopy(entree, 33, sortie, 0, entree.length-34);
             System.arraycopy(sortie, 0, fileComplet, position*200, sortie.length);
             app.appReceive(fileComplet, filename);
             socket.close();
         }
         else{
-            System.arraycopy(entree, 31, sortie, 0, entree.length-32);
+            System.arraycopy(entree, 33, sortie, 0, entree.length-34);
             System.arraycopy(sortie, 0, fileComplet, position*200, entree.length-1);
-            try {
-                server.receiveSocket();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (TransmissionErrorException e) {
-                e.printStackTrace();
-            }
         }
 
     }
