@@ -84,7 +84,7 @@ public class transportServer {
      * @throws TransmissionErrorException S'il y a une perte de 3 paquets
      */
 
-    public void readReceipt(byte[] packet,boolean crc) throws TransmissionErrorException {
+    public void readReceipt(byte[] packet,boolean crc,linkServer server) throws TransmissionErrorException {
         int[] listPosition = new int[131072];
         byte[] pos = new byte[5];
         System.arraycopy(packet, 15, pos, 0, 2);
@@ -114,7 +114,7 @@ public class transportServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        sendApp(packet);
+        sendApp(packet,server);
     }
 
     /**
@@ -147,7 +147,7 @@ public class transportServer {
      * Permet  l'application Serveur avec le bon formatage en retirant le header et ensuite envoyer l'ensemble du packet
      * @param entree de byte qui refere le packet actuelle
      */
-    public void sendApp(byte[] entree){
+    public void sendApp(byte[] entree,linkServer server){
         applicationServer app = new applicationServer();
         byte[] sortie = new byte[entree.length];
         if(position == 0){
@@ -158,8 +158,6 @@ public class transportServer {
             fileCompletSize |= sortie[0] << 8;
             fileComplet = new byte[fileCompletSize*200];
             filename = new String(filenameArray, StandardCharsets.UTF_8);
-            //test-----------------------------------------------
-            //System.out.println(endVal);
         }
         else if(position == fileCompletSize-1){
             System.arraycopy(entree, 19, sortie, 0, entree.length-20);
@@ -169,6 +167,13 @@ public class transportServer {
         else{
             System.arraycopy(entree, 19, sortie, 0, entree.length-20);
             System.arraycopy(sortie, 0, fileComplet, position*200, entree.length-1);
+            try {
+                server.receiveSocket();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TransmissionErrorException e) {
+                e.printStackTrace();
+            }
         }
 
     }

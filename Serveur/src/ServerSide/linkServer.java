@@ -74,6 +74,7 @@ public class linkServer {
         int portClient = packet.getPort();
         InetAddress addressClient = packet.getAddress();
         String crcS = new String(crcB,StandardCharsets.UTF_8);
+
         System.out.println(crcS);
         System.out.println(crcS);
         crcClient = Long.parseLong(crcS);
@@ -81,13 +82,13 @@ public class linkServer {
         long crcResult= verify(entree);
         socket.close();
         transportServer ts = new transportServer(portServeur,portClient,addressClient);
-        /*if(crcResult != crcClient){
+        if(crcResult != crcClient){
             createLog("Recu avec erreur de crc! :P");
-            ts.readReceipt(entree,true);
+            ts.readReceipt(entree,true,this);
         }
-        else{*/
-            ts.readReceipt(entree,false);
-        //}
+        else{
+            ts.readReceipt(entree,false,this);
+        }
 
     }
 

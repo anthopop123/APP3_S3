@@ -63,9 +63,11 @@ public class Packet {
         }
 
         String transmission = Scrc + sipSource + SipDestination + SpacketNumber + StotalNumberOfPacket;
-        byte[] transmissionFinal;
-        transmissionFinal = transmission.getBytes();
-        System.arraycopy(contenu,0,transmissionFinal,transmissionFinal.length-1,contenu.length-1);
+        byte[] transmissionIntermediaire;
+        transmissionIntermediaire = transmission.getBytes();
+        byte[] transmissionFinal = new byte[transmissionIntermediaire.length+contenu.length];
+        System.arraycopy(transmissionIntermediaire,0,transmissionFinal,0,transmissionIntermediaire.length);
+        System.arraycopy(contenu,0,transmissionFinal,transmissionIntermediaire.length-1,contenu.length);
         return transmissionFinal;
     }
     void setTotalNumberOfPacket(int i_numberOfPacket){
@@ -83,3 +85,6 @@ public class Packet {
         return result.toString();
     }
 }
+/*
+D:\Simon\Desktop\Repo\APP3_S3\test.txt
+*/
