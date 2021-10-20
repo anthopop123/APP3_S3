@@ -29,32 +29,27 @@ public class linkClient {
         }
         send(transmission, arg);
     }
-
     public void send(Packet[] transmission, String arg) throws IOException {
         socket = new DatagramSocket(25501);
         InetAddress addressClient = InetAddress.getByName(arg);
-
-        packet = new DatagramPacket(transmission[0].tobyte(), transmission[0].tobyte().length, addressClient, 25500);
-        System.out.println(Arrays.toString(packet.getData()));
-        socket.send(packet);
-        //while(actuelPos != transmission.length){
+        for(int i=0; i<transmission.length; i++) {
+            packet = new DatagramPacket(transmission[i].tobyte(), transmission[i].tobyte().length, addressClient, 25500);
+            System.out.println(Arrays.toString(packet.getData()));
+            socket.send(packet);
             verifySend();
-        //}
-
+        }
         socket.close();
     }
     public void verifySend() throws IOException {
         byte[] buf = new byte[256];
         packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
-
         byte[] sortie = new byte[packet.getLength()];
         String received = new String(sortie, 0, sortie.length);
         if(received.split("/", 0)[0].equals("Success"))
         {
             actuelPos++;
         }
-        System.out.println(actuelPos);
         received.replace("/", " ");
         //System.arraycopy(buf, 0, sortie, 0, sortie.length);
         System.out.println("reussi voici le message de retour : " + received);

@@ -1,4 +1,5 @@
 package Test;
+import java.math.BigInteger;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 import java.util.ArrayList;
@@ -33,11 +34,9 @@ public class Packet {
         String StotalNumberOfPacket = Integer.toBinaryString(totalNumberOfPacket);
         String SipDestination = convertByteArraysToBinary(ipDestination.getBytes());
         String sipSource = convertByteArraysToBinary(Source.getBytes());
-
-
         String Scrc = Long.toBinaryString(crc);
-        if (SipDestination.length()!=64){
-            while (SipDestination.length()!=64){
+        if (SipDestination.length()!=128){
+            while (SipDestination.length()!=128){
                 SipDestination = "0"+SipDestination;
             }
         }
@@ -61,10 +60,9 @@ public class Packet {
                 Scrc = "0"+Scrc;
             }
         }
-
         String transmission = Scrc + sipSource + SipDestination + SpacketNumber + StotalNumberOfPacket;
         byte[] transmissionIntermediaire;
-        transmissionIntermediaire = transmission.getBytes();
+        transmissionIntermediaire = new BigInteger(transmission, 2).toByteArray();
         byte[] transmissionFinal = new byte[transmissionIntermediaire.length+contenu.length];
         System.arraycopy(transmissionIntermediaire,0,transmissionFinal,0,transmissionIntermediaire.length);
         System.arraycopy(contenu,0,transmissionFinal,transmissionIntermediaire.length-1,contenu.length);
