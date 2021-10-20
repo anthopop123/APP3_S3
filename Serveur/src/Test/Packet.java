@@ -40,8 +40,8 @@ public class Packet {
                 SipDestination = "0"+SipDestination;
             }
         }
-        if (sipSource.length()!=64){
-            while (sipSource.length()!=64){
+        if (sipSource.length()!=128){
+            while (sipSource.length()!=128){
                 sipSource = "0"+sipSource;
             }
         }

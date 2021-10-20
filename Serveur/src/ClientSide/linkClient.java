@@ -32,8 +32,8 @@ public class linkClient {
     public void send(Packet[] transmission, String arg) throws IOException {
         socket = new DatagramSocket(25501);
         InetAddress addressClient = InetAddress.getByName(arg);
-        for(int i=0; i<transmission.length; i++) {
-            packet = new DatagramPacket(transmission[i].tobyte(), transmission[i].tobyte().length, addressClient, 25500);
+        for(actuelPos=0; actuelPos<transmission.length; actuelPos++) {
+            packet = new DatagramPacket(transmission[actuelPos].tobyte(), transmission[actuelPos].tobyte().length, addressClient, 25500);
             System.out.println(Arrays.toString(packet.getData()));
             socket.send(packet);
             verifySend();
@@ -46,9 +46,9 @@ public class linkClient {
         socket.receive(packet);
         byte[] sortie = new byte[packet.getLength()];
         String received = new String(sortie, 0, sortie.length);
-        if(received.split("/", 0)[0].equals("Success"))
+        if(!received.split("/", 0)[0].equals("Success"))
         {
-            actuelPos++;
+            actuelPos--;
         }
         received.replace("/", " ");
         //System.arraycopy(buf, 0, sortie, 0, sortie.length);
