@@ -36,13 +36,13 @@ public class Packet {
 
 
         String Scrc = Long.toBinaryString(crc);
-        if (SipDestination.length()!=64){
-            while (SipDestination.length()!=64){
+        if (SipDestination.length()!=128){
+            while (SipDestination.length()!=128){
                 SipDestination = "0"+SipDestination;
             }
         }
-        if (sipSource.length()!=64){
-            while (sipSource.length()!=64){
+        if (sipSource.length()!=128){
+            while (sipSource.length()!=128){
                 sipSource = "0"+sipSource;
             }
         }
