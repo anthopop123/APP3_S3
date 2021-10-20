@@ -79,7 +79,7 @@ public class linkServer {
 
 
         System.out.println(crcS);
-        crcClient = (Long)crcB
+        crcClient = Long.parseLong(crcS);
         System.arraycopy(entree, 7,entree,0,entree.length-8);
         long crcResult= verify(entree);
         transportServer ts = new transportServer(portServeur,portClient,addressClient);
@@ -113,5 +113,6 @@ public class linkServer {
 
 
     }
+
 
 }

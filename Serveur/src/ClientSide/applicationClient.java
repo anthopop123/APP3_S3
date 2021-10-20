@@ -8,11 +8,16 @@ import java.io.IOException;
 
 /**
  * public class applicationClient
- * demmare
+ * demmare le processus d'envoie en lisant le fichier a envoye et le place dans un buffer
  */
 public class applicationClient {
     String filename;
 
+    /**
+     * Permet la creation d'un buffer avec un fichier entree
+     * @param i_nom string representant le path du file
+     * @return array de byte du buffer
+     */
     public byte[] creationMessage(String i_nom) {
         File fichier = new File(i_nom);
         FileInputStream stream = null;
@@ -32,6 +37,11 @@ public class applicationClient {
         filename = fichier.getName();
         return buffer;
     }
+
+    /**
+     * donne le nom du ficher actuel
+     * @return string du nom du fichier
+     */
     public String getFilename(){
         return filename;
     }
